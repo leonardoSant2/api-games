@@ -1,3 +1,4 @@
+//LEMBRAR DO DESAFIO DE NO FINAL DO PROJETO CRIAR UM BANCO DE DADOS REAL PARA SUBSTITUIR O JSON
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
@@ -30,7 +31,9 @@ var DB = {
 
 }
 
-app.get("/", () => {
+app.get("/games", (req, res) => {
+    res.statusCode = 200;
+    res.json(DB.games);
     
 })
 
