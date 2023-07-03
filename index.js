@@ -53,6 +53,22 @@ app.get("/game/:id", (req, res) => {
     }
 })
 
+app.post("/game", (req, res) => {
+
+    var {title, year, price} = req.body;
+
+    DB.games.push({
+        id: 123,
+        title,
+        year,
+        price
+    })
+    
+    res.sendStatus(200)
+})
+
+
+
 app.listen(45678, () => {
     console.log("API RODANDO!")
 })
