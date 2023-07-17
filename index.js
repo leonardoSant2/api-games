@@ -31,7 +31,6 @@ app.get("/games", (req, res) => {
     });
 })
 
-
 app.get("/game/:id", (req, res) => {
 
     if (isNaN(req.params.id)) {
@@ -87,31 +86,49 @@ app.delete("/game/:id", (req, res) =>{
     }
 });
 
-//Editar
 app.put("/game/:id", (req, res) => {
 
-    if (isNaN(req.params.id)) {
-        res.sendStatus(400);
-    } else {
-        var id = req.params.id
-        var game = DB.games.find(g => g.id == id);
+    var id = req.params.id;
 
-        if (game != undefined) {
-            var {title, year, price} = req.body;
+    if (isNaN(id)) {
+        res.sendStatus(400);
+    } else if (id <= 0) {
+        res.sendStatus(404)
+    } else  {
+        Game.findByPk(id).then(game => {
+            if (game != undefined) {
+                var {title, year, price} = req.body;
 
                 if (title != undefined) {
-                    game.title = title;
+                    Game.update({
+                        title: title}, {
+                        where: {
+                            id: id
+                        }
+                    })
                 } 
                 if (year != undefined) {
-                    game.year = year;
+                    Game.update({
+                        year: year}, {
+                        where: {
+                            id: id
+                        }
+                    })
                 }
                 if (price != undefined) {
-                    game.price = price
+                    Game.update({
+                        price: price}, {
+                        where: {
+                            id: id
+                        }
+                    })
                 }
                 res.sendStatus(200);
-        } else {
-            res.sendStatus(404)
-        }
+                
+            } else {
+                res.sendStatus(404)
+            }
+        });
     }
 })
 
