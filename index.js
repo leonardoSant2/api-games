@@ -24,9 +24,11 @@ connection
 
 
 app.get("/games", (req, res) => {
-    res.statusCode = 200;
-    res.json(Game.games);
-    
+
+    Game.findAll().then(games => {
+        res.statusCode = 200;
+        res.json(games);
+    });
 })
 
 
