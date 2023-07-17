@@ -29,21 +29,25 @@ app.get("/games", (req, res) => {
     
 })
 
+
 app.get("/game/:id", (req, res) => {
+
     if (isNaN(req.params.id)) {
         res.sendStatus(400);
+    } else if (req.params.id <= 0) {
+        res.sendStatus(404);    
     } else {
         var id = req.params.id
-        var game = DB.games.find(g => g.id == id);
-
-        if (game != undefined) {
-            res.statusCode = 200;
-            res.json(game);
+        Game.findByPk(id).then(game => {
+            if (game != undefined) {
+                res.statusCode = 200;
+                res.json(game);
         } else {
-            res.sendStatus(404)
-        }
-    }
-})
+            res.sendStatus(404);
+        } 
+    });
+}
+});
 
 app.post("/game", (req, res) => {
 
@@ -81,7 +85,7 @@ app.delete("/game/:id", (req, res) =>{
     }
 });
 
-
+//Editar
 app.put("/game/:id", (req, res) => {
 
     if (isNaN(req.params.id)) {
