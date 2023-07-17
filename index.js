@@ -3,11 +3,9 @@ const app = express();
 const bodyParser = require("body-parser");
 const connection = require('./database/database');
 
-
+//Body Parser
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-
-
 
 //Model
 const Game = require('./games/Game');
@@ -21,8 +19,7 @@ connection
         console.log(error);
       });
 
-
-
+//Routes
 app.get("/games", (req, res) => {
 
     Game.findAll().then(games => {
