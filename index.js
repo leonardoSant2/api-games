@@ -2,6 +2,9 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const connection = require('./database/database');
+const cors = require("cors");
+
+app.use(cors());
 
 //Body Parser
 app.use(bodyParser.urlencoded({extended: false}));
