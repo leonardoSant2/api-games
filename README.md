@@ -16,11 +16,11 @@ API REST de Games com CRUD completo
 * Sequelize
 
 ## :rocket: Rodando o projeto
-Para rodar o repositório é necessário clonar o mesmo, dar os seguintes comandos para iniciar o projeto:
+Para rodar o repositório é necessário clonar o mesmo e dar os seguintes comandos para iniciar o projeto:
 ```
 git clone https://github.com/leonardoSant2/api-games.git
-npm install --save mysql2 sequelize express nodemon
 cd api-games
+npm install --save mysql2 sequelize express nodemon
 nodemon index.js
 
 ```
