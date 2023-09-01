@@ -18,4 +18,4 @@ const User = connection.define('users', {
 
 
 
-module.exports = Game;
+module.exports = User;
