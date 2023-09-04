@@ -143,20 +143,20 @@ app.post("/auth",(req, res) =>{
 
         if (user != undefined) {
             if(user.passwd == passwd){
-            res.status = 200; 
+            res.status(200); 
             res.json({token: "TOKEN FALSO!"})
         }else{
-            res.status = 401;
+            res.status(401);
             res.json({erro: "Credenciais inválidas!"})
         }
             
     } else {
-            res.status = 404; 
+            res.status(404); 
             res.json({erro: "O e-mail não existe na base de dados!"})
         }
 
     } else{
-        res.status = 400;
+        res.status(400);
         res.json({erro: "O e-mail enviado é inválido!"})
     }
 })
