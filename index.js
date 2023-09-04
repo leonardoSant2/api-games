@@ -12,6 +12,7 @@ app.use(bodyParser.json());
 
 //Model
 const Game = require('./games/Game');
+const User = require('./users/User');
 
 //Database
 connection
@@ -129,6 +130,34 @@ app.put("/game/:id", (req, res) => {
                 res.sendStatus(404)
             }
         });
+    }
+})
+
+app.post("/auth",(req, res) =>{
+
+    var {email, passwd} = req.body;
+
+    if(email != undefined){
+
+        var user = User.find(u => u.email == email);
+
+        if (user != undefined) {
+            if(user.passwd == passwd){
+            res.status = 200; 
+            res.json({token: "TOKEN FALSO!"})
+        }else{
+            res.status = 401;
+            res.json({erro: "Credenciais inválidas!"})
+        }
+            
+    } else {
+            res.status = 404; 
+            res.json({erro: "O e-mail não existe na base de dados!"})
+        }
+
+    } else{
+        res.status = 400;
+        res.json({erro: "O e-mail enviado é inválido!"})
     }
 })
 
