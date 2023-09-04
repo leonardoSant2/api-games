@@ -61,7 +61,7 @@ app.post("/game", (req, res) => {
         price
     })
     
-    res.sendStatus(200)
+    res.sendStatus(200);
 })
 
 app.delete("/game/:id", (req, res) =>{
@@ -133,28 +133,39 @@ app.put("/game/:id", (req, res) => {
     }
 })
 
+app.post("/user", (req, res) => {
+    var {name, email, passwd} = req.body;
+
+    User.create({
+        name,
+        email,
+        passwd
+    })
+
+    res.sendStatus(200);
+})
+
 app.post("/auth",(req, res) =>{
 
     var {email, passwd} = req.body;
 
     if(email != undefined){
-
-        var user = User.find(u => u.email == email);
-
-        if (user != undefined) {
-            if(user.passwd == passwd){
-            res.status(200); 
-            res.json({token: "TOKEN FALSO!"})
-        }else{
-            res.status(401);
-            res.json({erro: "Credenciais inválidas!"})
-        }
+        
+        User.findOne({where:{email:email}}).then(user => {
             
-    } else {
-            res.status(404); 
-            res.json({erro: "O e-mail não existe na base de dados!"})
-        }
-
+            if (user != undefined) {
+                if(user.passwd == passwd){
+                    res.status(200); 
+                    res.json({token: "TOKEN FALSO!"})
+                }else{
+                    res.status(401);
+                    res.json({erro: "Credenciais inválidas!"})
+                }
+            } else {
+                res.status(404); 
+                res.json({erro: "O e-mail não existe na base de dados!"})
+            }
+        });
     } else{
         res.status(400);
         res.json({erro: "O e-mail enviado é inválido!"})
