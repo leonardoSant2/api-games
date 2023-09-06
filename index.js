@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const connection = require('./database/database');
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
+const userAuth = require("./middlewares/userAuth")
 
 const JWTsecret = "ksksksksksksksksksksksks"
 
@@ -27,11 +28,11 @@ connection
       });
 
 //Routes
-app.get("/games", (req, res) => {
+app.get("/games", userAuth, (req, res) => {
 
     Game.findAll().then(games => {
         res.statusCode = 200;
-        res.json(games);
+        res.json({user: req.loggedUser, games: games});
     });
 })
 
@@ -158,7 +159,7 @@ app.post("/auth",(req, res) =>{
             
             if (user != undefined) {
                 if(user.passwd == passwd){
-                    jwt.sign({id: user.id, email: user.emai }, JWTsecret,{expiresIn:'48h'}, (err, token) => {
+                    jwt.sign({id: user.id, email: user.email }, JWTsecret,{expiresIn:'48h'}, (err, token) => {
                         if (err) {
                             res.status(400);
                             res.json({err: "Falha interna"})
