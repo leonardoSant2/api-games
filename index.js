@@ -32,11 +32,11 @@ app.get("/games", userAuth, (req, res) => {
 
     Game.findAll().then(games => {
         res.statusCode = 200;
-        res.json({user: req.loggedUser, games: games});
+        res.json({games: games});
     });
 })
 
-app.get("/game/:id", (req, res) => {
+app.get("/game/:id",userAuth, (req, res) => {
 
     if (isNaN(req.params.id)) {
         res.sendStatus(400);
@@ -55,7 +55,7 @@ app.get("/game/:id", (req, res) => {
 }
 });
 
-app.post("/game", (req, res) => {
+app.post("/game",userAuth, (req, res) => {
 
     var {title, year, price} = req.body;
 
@@ -68,7 +68,7 @@ app.post("/game", (req, res) => {
     res.sendStatus(200);
 })
 
-app.delete("/game/:id", (req, res) =>{
+app.delete("/game/:id",userAuth, (req, res) =>{
 
     if (isNaN(req.params.id)) {
         res.sendStatus(400);
@@ -91,7 +91,7 @@ app.delete("/game/:id", (req, res) =>{
     }
 });
 
-app.put("/game/:id", (req, res) => {
+app.put("/game/:id",userAuth,(req, res) => {
 
     var id = req.params.id;
 
@@ -158,11 +158,11 @@ app.post("/auth",(req, res) =>{
         User.findOne({where:{email:email}}).then(user => {
             
             if (user != undefined) {
-                if(user.passwd == passwd){
-                    jwt.sign({id: user.id, email: user.email }, JWTsecret,{expiresIn:'48h'}, (err, token) => {
-                        if (err) {
+                if(user.passwd == passwd){    
+                    jwt.sign({id: user.id, email: user.email},JWTsecret,{expiresIn:'1h'},(err, token) => {
+                        if (err) {  
                             res.status(400);
-                            res.json({err: "Falha interna"})
+                            res.json({err: "Falha internas"})
                         } else {
                             res.status(200); 
                             res.json({token: token })
@@ -176,7 +176,7 @@ app.post("/auth",(req, res) =>{
                 res.status(404); 
                 res.json({erro: "O e-mail não existe na base de dados!"})
             }
-        });
+        })
     } else{
         res.status(400);
         res.json({erro: "O e-mail enviado é inválido!"})
