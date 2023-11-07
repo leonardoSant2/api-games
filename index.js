@@ -38,6 +38,31 @@ app.get("/games", userAuth, (req, res) => {
 
 app.get("/game/:id",userAuth, (req, res) => {
 
+    var id = req.params.id
+
+    var HATEOAS = [
+        {
+            href: "http://localhost:45679/game/"+id,
+            method: "DELETE",
+            rel: "delete_game"
+        },
+        {
+            href: "http://localhost:45679/game/"+id,
+            method: "GET",
+            rel: "get_game"
+        },
+        {
+            href: "http://localhost:45679/game/"+id,
+            method: "PUT",
+            rel: "edit_game"
+        },
+        {
+            href: "http://localhost:45679/games",
+            method: "GET",
+            rel: "get_all_games"
+        }
+    ]
+
     if (isNaN(req.params.id)) {
         res.status(400);
         res.json({Erro: "Parâmetro incorreto!"})
@@ -49,7 +74,7 @@ app.get("/game/:id",userAuth, (req, res) => {
         Game.findByPk(id).then(game => {
             if (game != undefined) {
                 res.statusCode = 200;
-                res.json(game);
+                res.json({game, _links: HATEOAS});
         } else {
             res.status(404);
             res.json({Erro: "Game não encontrado na base de dados"})
@@ -73,6 +98,31 @@ app.post("/game",userAuth, (req, res) => {
 
 app.delete("/game/:id",userAuth, (req, res) =>{
 
+    var id = req.params.id
+
+    var HATEOAS = [
+        {
+            href: "http://localhost:45679/game/"+id,
+            method: "DELETE",
+            rel: "delete_game"
+        },
+        {
+            href: "http://localhost:45679/game/"+id,
+            method: "GET",
+            rel: "get_game"
+        },
+        {
+            href: "http://localhost:45679/game/"+id,
+            method: "PUT",
+            rel: "edit_game"
+        },
+        {
+            href: "http://localhost:45679/games",
+            method: "GET",
+            rel: "get_all_games"
+        }
+    ]
+
     if (isNaN(req.params.id)) {
         res.status(400);
         res.json({Erro: "Parâmetro incorreto!"})
@@ -89,6 +139,7 @@ app.delete("/game/:id",userAuth, (req, res) =>{
                     }
                 })
                 res.statusCode = 200;
+                res.json({_links: HATEOAS})
             } else {
                 res.status(404);
                 res.json({Erro: "Game não encontrado na base de dados"}) 
@@ -100,6 +151,29 @@ app.delete("/game/:id",userAuth, (req, res) =>{
 app.put("/game/:id",userAuth,(req, res) => {
 
     var id = req.params.id;
+
+    var HATEOAS = [
+        {
+            href: "http://localhost:45679/game/"+id,
+            method: "DELETE",
+            rel: "delete_game"
+        },
+        {
+            href: "http://localhost:45679/game/"+id,
+            method: "GET",
+            rel: "get_game"
+        },
+        {
+            href: "http://localhost:45679/game/"+id,
+            method: "PUT",
+            rel: "edit_game"
+        },
+        {
+            href: "http://localhost:45679/games",
+            method: "GET",
+            rel: "get_all_games"
+        }
+    ]
 
     if (isNaN(id)) {
         res.sendStatus(400);
@@ -134,7 +208,9 @@ app.put("/game/:id",userAuth,(req, res) => {
                         }
                     })
                 }
-                res.sendStatus(200);
+                res.statusCode = 200;
+                res.json({_links: HATEOAS});
+
                 
             } else {
                 res.sendStatus(404)
