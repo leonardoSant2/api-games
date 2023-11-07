@@ -39,9 +39,11 @@ app.get("/games", userAuth, (req, res) => {
 app.get("/game/:id",userAuth, (req, res) => {
 
     if (isNaN(req.params.id)) {
-        res.sendStatus(400);
+        res.status(400);
+        res.json({Erro: "Parâmetro incorreto!"})
     } else if (req.params.id <= 0) {
-        res.sendStatus(404);    
+        res.status(404);
+        res.json({Erro: "Game não encontrado na base de dados"})    
     } else {
         var id = req.params.id
         Game.findByPk(id).then(game => {
@@ -49,7 +51,8 @@ app.get("/game/:id",userAuth, (req, res) => {
                 res.statusCode = 200;
                 res.json(game);
         } else {
-            res.sendStatus(404);
+            res.status(404);
+            res.json({Erro: "Game não encontrado na base de dados"})
         } 
     });
 }
@@ -71,9 +74,11 @@ app.post("/game",userAuth, (req, res) => {
 app.delete("/game/:id",userAuth, (req, res) =>{
 
     if (isNaN(req.params.id)) {
-        res.sendStatus(400);
-    } if (req.params.id <= 0) {
-        res.sendStatus(404);
+        res.status(400);
+        res.json({Erro: "Parâmetro incorreto!"})
+    } else if (req.params.id <= 0) {
+        res.status(404);
+        res.json({Erro: "Game não encontrado na base de dados"}) 
     } else {
         var id = req.params.id;        
         Game.findByPk(id).then(game => {
@@ -83,9 +88,10 @@ app.delete("/game/:id",userAuth, (req, res) =>{
                         id : id
                     }
                 })
-                res.sendStatus(200);
+                res.statusCode = 200;
             } else {
-                res.sendStatus(404);
+                res.status(404);
+                res.json({Erro: "Game não encontrado na base de dados"}) 
             }
         });
     }
@@ -98,7 +104,7 @@ app.put("/game/:id",userAuth,(req, res) => {
     if (isNaN(id)) {
         res.sendStatus(400);
     } else if (id <= 0) {
-        res.sendStatus(404)
+        res.sendStatus(404);
     } else  {
         Game.findByPk(id).then(game => {
             if (game != undefined) {
