@@ -1,7 +1,7 @@
 <h1 align="center">:file_cabinet: README.md</h1>
 
 ## :memo: Descrição
-API REST de Games com CRUD completo
+API RESTful de Games com CRUD completo
 ## :books: Funcionalidades
 * <b>Listar</b>: Listagem de todos os games que estão disponíveis na base de dados.
 * <b>Listagem única</b>: Listar game através do id fornecido.
@@ -14,6 +14,7 @@ API REST de Games com CRUD completo
 * MySQL
 * Node.js
 * Sequelize
+* JWT
 
 ## :rocket: Rodando o projeto
 Para rodar o repositório é necessário clonar o mesmo e dar os seguintes comandos para iniciar o projeto:
